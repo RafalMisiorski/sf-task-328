@@ -20,6 +20,16 @@ weather_data = {
     "tokyo": {"city": "Tokyo", "temperature": 25.0, "humidity": 80, "conditions": "rainy"},
     "new york": {"city": "New York", "temperature": 12.3, "humidity": 55, "conditions": "clear"},
     "sydney": {"city": "Sydney", "temperature": 28.7, "humidity": 60, "conditions": "sunny"},
+    "berlin": {"city": "Berlin", "temperature": 10.5, "humidity": 68, "conditions": "cloudy"},
+    "warsaw": {"city": "Warsaw", "temperature": 8.2, "humidity": 75, "conditions": "cloudy"},
+    "madrid": {"city": "Madrid", "temperature": 22.0, "humidity": 45, "conditions": "sunny"},
+    "rome": {"city": "Rome", "temperature": 20.5, "humidity": 55, "conditions": "sunny"},
+    "amsterdam": {"city": "Amsterdam", "temperature": 12.0, "humidity": 78, "conditions": "rainy"},
+    "moscow": {"city": "Moscow", "temperature": 2.5, "humidity": 82, "conditions": "cloudy"},
+    "beijing": {"city": "Beijing", "temperature": 18.0, "humidity": 40, "conditions": "clear"},
+    "dubai": {"city": "Dubai", "temperature": 35.0, "humidity": 30, "conditions": "sunny"},
+    "singapore": {"city": "Singapore", "temperature": 30.5, "humidity": 85, "conditions": "rainy"},
+    "los angeles": {"city": "Los Angeles", "temperature": 24.0, "humidity": 50, "conditions": "sunny"},
 }
 
 @app.get("/health")
