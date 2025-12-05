@@ -1,0 +1,22 @@
+{
+  "tests\\test_error_handling.py": {
+    "test_file_hash": "db362e5e2809fa38022bb1a679704180ba6b173d24040d0a6ff21f9ebaa62a50",
+    "code_hashes": {
+      "app\\main.py": "7682df2175afd05fa06ef2c92ba19333f436c51ccad05fc2119ae645b44606f9",
+      "app\\core\\config.py": "f030bbc2dd83c1a1a8ecdc4bf43163ac56918bf97b48845150589b42d3886cce",
+      "app\\core\\database.py": "81d4779a30699ccbba0b8c21d1f53b2f7d0f2d79a3bf4a9df7820514b1a1c914",
+      "app\\core\\security.py": "8f7a32e2699d0eedd235397e5e9ba4b510a19de8de43b11c00b5f4f3fd3ca0d1",
+      "app\\core\\__init__.py": "9d4291418e6af276eb0a1f6975987514020cfd7f018b507aa29a66c80439feff"
+    },
+    "last_result": "failed",
+    "last_run_iteration": 20,
+    "last_run_time": "2025-12-05T17:57:40.710887",
+    "related_files": [
+      "app\\main.py",
+      "app\\core\\config.py",
+      "app\\core\\database.py",
+      "app\\core\\security.py",
+      "app\\core\\__init__.py"
+    ]
+  }
+}

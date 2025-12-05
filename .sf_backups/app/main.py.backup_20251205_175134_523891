@@ -1,0 +1,153 @@
+
+"""
+FastAPI Application Entry Point
+
+This is the main application file that creates and configures the FastAPI app.
+
+WHY: Single entry point for the application.
+WHY: Includes all routers (auth, items, etc).
+WHY: Configures CORS, middleware, exception handlers.
+
+COPY THIS PATTERN:
+1. Import your new routers
+2. Add them with app.include_router()
+3. Keep this file simple - business logic goes in routers
+"""
+
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
+from app.core.config import settings
+from app.core.database import init_db
+from app.auth.router import router as auth_router
+from app.examples.router import router as items_router
+from app.routes.weather_router import router as weather_router # Import the new weather router
+
+
+# Create FastAPI app
+# WHY: title, version, docs_url appear in OpenAPI docs
+app = FastAPI(
+    title=settings.app_name,
+    version="1.0.0",
+    description="FastAPI application with authentication and CRUD operations",
+    docs_url="/docs",  # Swagger UI at /docs
+    redoc_url="/redoc"  # ReDoc at /redoc
+)
+
+
+# CORS Configuration
+# WHY: Allows frontend (running on different port/domain) to call this API
+# WHY: Settings come from environment variables (see .env)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.origins_list,  # List of allowed origins
+    allow_credentials=True,  # Allow cookies/auth headers
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, PUT, DELETE, etc)
+    allow_headers=["*"],  # Allow all headers
+)
+
+
+# Include routers
+# WHY: Each router handles a specific feature (auth, items, etc)
+# WHY: prefix="/api/v1" means all endpoints start with /api/v1
+app.include_router(auth_router, prefix="/api/v1")
+app.include_router(items_router, prefix="/api/v1")
+app.include_router(weather_router, prefix="/api/v1") # Include the new weather router
+
+
+# Root endpoint
+@app.get("/")
+def root():
+    """
+    Root endpoint - health check.
+
+    WHY: Useful to verify API is running.
+    WHY: Returns API info and available endpoints.
+    """
+    return {
+        "message": "Welcome to FastAPI!",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health"
+    }
+
+
+# Health check endpoint (will be overridden by weather_router's health endpoint if mounted at root)
+# To avoid conflict or if weather_router's health endpoint is at /api/v1/health, keep this or remove if redundant
+# For now, assuming weather_router's health endpoint is the intended one and will be accessed via /api/v1/health
+# If the requirement is a root health check, we might need to adjust.
+# For this task, the weather_router defines /health which will be accessible at /api/v1/health
+# Let's remove this root health check to avoid confusion and rely on the router's.
+# @app.get("/health")
+# def health_check():
+#     """
+#     Health check endpoint.
+#
+#     WHY: Used by monitoring tools, load balancers, Docker health checks.
+#     WHY: Returns 200 OK if API is running.
+#     """
+#     return {"status": "healthy"}
+
+
+# Exception handler for generic errors
+# WHY: Catches unexpected errors and returns consistent JSON response
+# WHY: Prevents HTML error pages in production
+@app.exception_handler(Exception)
+def generic_exception_handler(request: Request, exc: Exception):
+    """Handle unexpected exceptions."""
+    if settings.debug:
+        # In debug mode, return detailed error
+        return JSONResponse(
+            status_code=500,
+            content={
+                "detail": "Internal server error",
+                "error": str(exc),
+                "type": type(exc).__name__
+            }
+        )
+    else:
+        # In production, return generic error (don't expose internals)
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "Internal server error"}
+        )
+
+
+# Startup event
+@app.on_event("startup")
+def on_startup():
+    """
+    Run when application starts.
+
+    WHY: Initialize database, create tables.
+    WHY: Good place for startup checks, logging, etc.
+    """
+    print(f"Starting {settings.app_name}...")
+
+    # Create database tables
+    # WHY: Ensures all tables exist before handling requests
+    # NOTE: In production, use Alembic migrations instead
+    init_db()
+
+    print("Database tables created/verified")
+    print(f"API running at http://localhost:8000")
+    print(f"Docs available at http://localhost:8000/docs")
+
+
+# Shutdown event
+@app.on_event("shutdown")
+def on_shutdown():
+    """
+    Run when application shuts down.
+
+    WHY: Clean up resources (close connections, etc).
+    """
+    print(f"Shutting down {settings.app_name}...")
+
+
+# How to run this application:
+# 1. Install dependencies: pip install -r requirements.txt
+# 2. Create .env file (copy from .env.example)
+# 3. Run: uvicorn app.main:app --reload
+# 4. Open: http://localhost:8000/docs

@@ -1,0 +1,52 @@
+{
+  "app\\main.py": [
+    {
+      "timestamp": "20251205_174942_385044",
+      "hash": "ed00c9c3a2b9d257078d61e40b71e5d1e585c875ccd8fefcfa8a6da541bcca9b",
+      "size": 3856,
+      "backup_path": "workspace\\task_328\\.sf_backups\\app\\main.py.backup_20251205_174942_385044"
+    },
+    {
+      "timestamp": "20251205_175134_523891",
+      "hash": "01134fb440bfa42cc67ace7414254d4372b6e0ac909a2a358fe9756cc7cdeefe",
+      "size": 4894,
+      "backup_path": "workspace\\task_328\\.sf_backups\\app\\main.py.backup_20251205_175134_523891"
+    },
+    {
+      "timestamp": "20251205_175603_654545",
+      "hash": "34a53290edf1ec9612b65881d87f83fc6e4e943e32beacb390d76047504f230e",
+      "size": 1832,
+      "backup_path": "workspace\\task_328\\.sf_backups\\app\\main.py.backup_20251205_175603_654545"
+    }
+  ],
+  "app\\schemas\\weather.py": [
+    {
+      "timestamp": "20251205_175027_494221",
+      "hash": "f6f1a75f83a9594c2cd2369f3288aae6a60548acd6576b6089e7d80dde253491",
+      "size": 143,
+      "backup_path": "workspace\\task_328\\.sf_backups\\app\\schemas\\weather.py.backup_20251205_175027_494221"
+    }
+  ],
+  "app\\routes\\weather_router.py": [
+    {
+      "timestamp": "20251205_175234_765447",
+      "hash": "7450608153da1575f03bab28c073bcea1092ea31fe8ad07e5aeca691977dddf1",
+      "size": 1276,
+      "backup_path": "workspace\\task_328\\.sf_backups\\app\\routes\\weather_router.py.backup_20251205_175234_765447"
+    },
+    {
+      "timestamp": "20251205_175511_094090",
+      "hash": "0719043a367ecfd55b66072d9855ff22a11bb72f60b4233631d4ee48607584a3",
+      "size": 705,
+      "backup_path": "workspace\\task_328\\.sf_backups\\app\\routes\\weather_router.py.backup_20251205_175511_094090"
+    }
+  ],
+  "tests\\test_error_handling.py": [
+    {
+      "timestamp": "20251205_175632_387140",
+      "hash": "9d90dfb8a08e60196dc3f11da5f9f5af5c33934fa3fb6cde0aa9a6eab2dc8f3c",
+      "size": 739,
+      "backup_path": "workspace\\task_328\\.sf_backups\\tests\\test_error_handling.py.backup_20251205_175632_387140"
+    }
+  ]
+}

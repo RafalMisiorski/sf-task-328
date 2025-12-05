@@ -1,0 +1,32 @@
+from fastapi import APIRouter, HTTPException
+from app.schemas.weather import WeatherResponse
+
+router = APIRouter()
+
+# Mock data for weather information
+# In a real application, this would come from a database or external API
+MOCK_WEATHER_DATA = {
+    "London": {"temperature": 15.5, "humidity": 80.2, "conditions": "Cloudy"},
+    "Paris": {"temperature": 18.0, "humidity": 75.5, "conditions": "Sunny"},
+    "Tokyo": {"temperature": 25.0, "humidity": 60.0, "conditions": "Clear"},
+    "New York": {"temperature": 22.3, "humidity": 70.1, "conditions": "Partly Cloudy"}
+}
+
+@router.get("/weather/{city}", response_model=WeatherResponse)
+async def get_weather(city: str):
+    """Get weather information for a specific city."""
+    city_lower = city.lower()
+    for key in MOCK_WEATHER_DATA:
+        if key.lower() == city_lower:
+            data = MOCK_WEATHER_DATA[key]
+            return WeatherResponse(city=key, temperature=data["temperature"], humidity=data["humidity"], conditions=data["conditions"])
+    
+    raise HTTPException(status_code=404, detail=f"Weather data not found for city: {city}")
+
+# In-memory storage for /health endpoint
+HEALTH_STATUS = {"status": "ok"}
+
+@router.get("/health")
+def health_check():
+    """Health check endpoint."""
+    return HEALTH_STATUS

@@ -1,0 +1,56 @@
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+
+# A simple in-memory data store for demonstration
+weather_data = {
+    "london": {"temperature": 15, "unit": "celsius"},
+    "paris": {"temperature": 18, "unit": "celsius"},
+    "tokyo": {"temperature": 25, "unit": "celsius"}
+}
+
+@app.get("/weather/{city}")
+def get_weather(city: str):
+    """
+    Retrieves weather information for a given city.
+
+    Args:
+        city: The name of the city (case-insensitive).
+
+    Returns:
+        A dictionary containing the temperature and unit.
+
+    Raises:
+        HTTPException 404: If the city is not found.
+        HTTPException 500: If an unexpected internal server error occurs.
+    """
+    try:
+        city_lower = city.lower()
+        if city_lower not in weather_data:
+            raise HTTPException(status_code=404, detail=f"Weather data not found for city: {city}")
+        return weather_data[city_lower]
+    except Exception as e:
+        # Catch any unexpected errors and return a 500 Internal Server Error
+        # In a real application, you would log this error properly.
+        print(f"An unexpected error occurred: {e}")
+        raise HTTPException(status_code=500, detail="An internal server error occurred.")
+
+# Example of another endpoint demonstrating different error handling
+@app.post("/items/")
+def create_item(name: str, quantity: int):
+    """
+    Creates a new item.
+
+    Args:
+        name: The name of the item.
+        quantity: The quantity of the item.
+
+    Returns:
+        A confirmation message.
+
+    Raises:
+        HTTPException 422: If validation fails (e.g., negative quantity).
+    """
+    if quantity <= 0:
+        raise HTTPException(status_code=422, detail="Quantity must be a positive integer.")
+    return {"message": f"Item '{name}' with quantity {quantity} created successfully."}
